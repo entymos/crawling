@@ -38,6 +38,6 @@ def fileDownload(url, file_name):
     f.close()
 
 if __name__ == "__main__":
-    url = 'https://storage.googleapis.com/data.yt8m.org/download_fix.py2'
-    file_name = 'download_fix_test.py'
+    url = '[file_url_to_download]'
+    file_name = '[file_name_to_save]'
     fileDownload(url, file_name)
