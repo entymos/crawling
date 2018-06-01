@@ -1,22 +1,21 @@
 import urllib.request as urllib2
 import time
+import logging
 
 def fileDownload(url, file_name):
-    num_of_retries = 2
+    logging.basicConfig(level=logging.INFO)
+    logger = logging.getLogger('[fileDownload]')
+
+    num_of_retries = 3
     time_interval = 2
 
-    while num_of_retries:
+    for retrycnt in range(num_of_retries):
       try:
         u = urllib2.urlopen(url)
         break
-      except Exception:
-        typ, val, tb = sys.exc_info()
-        logger.error(traceback.format_exception(typ, val, tb))
+      except Exception as e:
+        logger.error(' Faild to download: ' + str(e) + ', Number of remaining attempts: ' + str(num_of_retries - retrycnt - 1))
         time.sleep(time_interval)
-        num_of_retries -= 1
-        # If there aren't any retries - propogate
-        if not num_of_retries: 
-          raise
 
     f = open(file_name, 'wb')
     meta = u.info()
@@ -39,6 +38,6 @@ def fileDownload(url, file_name):
     f.close()
 
 if __name__ == "__main__":
-    url = 'http://[file_url_here]'
-    file_name = '[file_name_here]'
+    url = 'https://storage.googleapis.com/data.yt8m.org/download_fix.py2'
+    file_name = 'download_fix_test.py'
     fileDownload(url, file_name)
